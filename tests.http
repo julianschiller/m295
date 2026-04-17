@@ -19,5 +19,116 @@ Content-Type: application/json
 }
 
 ### Delete addresss
-DELETE http://localhost:8080/library/addresses/1
+DELETE http://localhost:8080/library/addresses/3
 
+### Get all media
+GET http://localhost:8080/library/media
+
+### Get media by title
+GET http://localhost:8080/library/media?title=Harry%20Potter
+
+### Get media by id
+GET http://localhost:8080/library/media/1
+
+### Create new media
+POST http://localhost:8080/library/media
+Content-Type: application/json
+
+{
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "minage": 12,
+    "isbn": "978-3-16-148410-0",
+    "locationcode": "A1"
+}
+
+### Update media (PATCH)
+PATCH http://localhost:8080/library/media/1
+Content-Type: application/json
+
+{
+    "genre": "Adventure",
+    "minage": 10
+}
+
+### Delete media
+DELETE http://localhost:8080/library/media/1
+
+### Get customer by id
+GET http://localhost:8080/library/customers/1
+
+### Get customers by name
+GET http://localhost:8080/library/customers?name=Test
+
+### Get customers by addressId
+GET http://localhost:8080/library/customers?addressId=3
+
+### Create new customer with new address
+POST http://localhost:8080/library/customers
+Content-Type: application/json
+
+{
+    "firstname": "Max",
+    "lastname": "Meier",
+    "birthdate": "2000-01-01",
+    "email": "max@meier.ch",
+    "address": {
+        "address": "Hochwalderstrasse 123",
+        "city": "Roeschenz",
+        "zip": "4095"
+    }
+}
+
+### Create new customer with existing address
+POST http://localhost:8080/library/customers
+Content-Type: application/json
+
+{
+    "firstname": "Max",
+    "lastname": "Test",
+    "birthdate": "2000-01-01",
+    "email": "max@meier.ch",
+    "address": {
+        "id": 3
+    }
+}
+
+### Update customer
+PATCH http://localhost:8080/library/customers/1
+Content-Type: application/json
+
+{
+    "email": "newmail@test.com"
+}
+
+### Delete customer
+DELETE http://localhost:8080/library/customers/1
+
+### Get all borrowings
+GET http://localhost:8080/library/borrowings
+
+### Create borrowing
+POST http://localhost:8080/library/borrowings
+Content-Type: application/json
+
+{
+    "duration": 14,
+    "customer": {
+        "id": 3
+    },
+    "media": {
+        "id": 2
+    }
+}
+
+### Extend borrowing (PATCH)
+PATCH http://localhost:8080/library/borrowings/1
+Content-Type: application/json
+
+{
+    "duration": 28
+}
+
+### End borrowing (by mediaId)
+DELETE http://localhost:8080/library/borrowings?mediaId=2

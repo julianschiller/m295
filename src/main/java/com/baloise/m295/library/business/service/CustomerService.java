@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.baloise.m295.library.common.AddressEntity;
 import com.baloise.m295.library.common.CustomerEntity;
+import com.baloise.m295.library.persistence.repository.AddressRepository;
 import com.baloise.m295.library.persistence.repository.CustomerRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomerService {
 
     private final CustomerRepository repo;
+    private final AddressRepository addressRepo;
 
     /**
      * Retrieves a customer by its ID
@@ -42,7 +45,7 @@ public class CustomerService {
      * If addressId is provided, filters by address
      * If no filter is provided, returns an empty list
      *
-     * @param name optional lastname filter
+     * @param name      optional lastname filter
      * @param addressId optional address ID filter
      * @return list of matching customers
      */
@@ -65,8 +68,26 @@ public class CustomerService {
      * Creates a new customer in the database
      *
      * @param customer customer entity to persist
+     * @throws ResponseStatusException when an id of adress is sent but the address
+     *                                 doesnt exist
      */
     public void createNewCustomer(CustomerEntity customer) {
+        AddressEntity address = customer.getAddress();
+
+        if (address == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Address is required");
+        }
+
+        Long addressId = address.getId();
+
+        if (addressId != null) {
+            address = addressRepo.findById(addressId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Address not found"));
+        } else {
+            address = addressRepo.save(address);
+        }
+
+        customer.setAddress(address);
         repo.save(customer);
     }
 
@@ -74,7 +95,7 @@ public class CustomerService {
      * Updates an existing customer
      * Only non-null fields from the request are applied
      *
-     * @param id customer ID
+     * @param id              customer ID
      * @param updatedCustomer incoming updated data
      * @throws ResponseStatusException if customer is not found
      */

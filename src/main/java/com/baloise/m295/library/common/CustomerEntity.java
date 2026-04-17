@@ -36,7 +36,7 @@ public class CustomerEntity {
     private Date birthdate;
     @Column(nullable=false, length=50)
     private String email;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="addressid", nullable=false)
     private AddressEntity address;
 }
