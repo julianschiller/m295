@@ -18,6 +18,12 @@ import com.baloise.m295.library.common.AddressEntity;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller for address endpoints
+ * Handles HTTP requests for address operations
+ *
+ * @author Julian Schiller
+ */
 @RestController
 @RequestMapping("/library/addresses")
 @RequiredArgsConstructor
@@ -25,18 +31,36 @@ public class AddressController {
 
     private final AddressService service;
 
+    /**
+     * Retrieves addresses filtered by address or zip
+     *
+     * @param address optional street + house number filter
+     * @param zip optional postal code filter
+     * @return list of matching addresses
+     */
     @GetMapping
-    public List<AddressEntity> getAddresses(@RequestParam(required=false) String address,
-            @RequestParam(required=false) String zip) {
+    public List<AddressEntity> getAddresses(
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String zip) {
         return service.getAddresses(address, zip);
     }
 
+    /**
+     * Creates a new address
+     *
+     * @param address address data to create
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createAddress(@RequestBody AddressEntity address) {
         service.createAddress(address);
     }
 
+    /**
+     * Deletes an address
+     *
+     * @param id address ID
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddress(@PathVariable long id) {

@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
+/**
+ * REST controller for customer endpoints
+ * Handles HTTP requests for customer CRUD operations
+ *
+ * @author Julian Schiller
+ */
 @RestController
 @RequestMapping("/library/customers")
 @RequiredArgsConstructor
@@ -28,32 +34,61 @@ public class CustomerController {
 
     private final CustomerService service;
 
+    /**
+     * Retrieves a customer by ID
+     *
+     * @param id customer ID
+     * @return customer entity
+     */
     @GetMapping("/{id}") 
     public CustomerEntity getCustomerById(@PathVariable long id) {
         return service.getCustomer(id);
     }
 
+    /**
+     * Retrieves customers filtered by name or address
+     *
+     * @param name optional lastname filter
+     * @param addressId optional address ID filter
+     * @return list of matching customers
+     */
     @GetMapping
-    public List<CustomerEntity> getCustomers(@RequestParam(required=false) String name, @RequestParam(required=false) Long addressId) {
+    public List<CustomerEntity> getCustomers(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long addressId) {
         return service.getCustomersWithFilter(name, addressId);
     }
 
+    /**
+     * Creates a new customer
+     *
+     * @param customer customer data to create
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createCustomer(@RequestBody CustomerEntity customer){
         service.createNewCustomer(customer);
     }
 
+    /**
+     * Updates an existing customer
+     *
+     * @param customer updated customer data
+     * @param id customer ID
+     */
     @PatchMapping("/{id}")
     public void editCustomer(@RequestBody CustomerEntity customer, @PathVariable long id) {
         service.editCustomer(id, customer);
     }
 
+    /**
+     * Deletes a customer
+     *
+     * @param id customer ID
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable long id) {
         service.deleteCustomer(id);
     }
-    
-
 }

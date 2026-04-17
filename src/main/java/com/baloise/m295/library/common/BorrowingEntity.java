@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class BorrowingEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable=false, columnDefinition="date")
     private Date borrowdate;
     /**

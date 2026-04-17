@@ -19,6 +19,12 @@ import com.baloise.m295.library.common.BorrowingEntity;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller for borrowing endpoints
+ * Handles HTTP requests for borrowing operations
+ *
+ * @author Julian Schiller
+ */
 @RestController
 @RequestMapping("/library/borrowings")
 @RequiredArgsConstructor
@@ -26,22 +32,43 @@ public class BorrowingController {
 
     private final BorrowingService service;
 
+    /**
+     * Retrieves all borrowings
+     *
+     * @return list of all borrowings
+     */
     @GetMapping
-    public List<BorrowingEntity> getAllBorrowings(){
+    public List<BorrowingEntity> getAllBorrowings() {
         return service.getAllBorrowings();
     }
 
+    /**
+     * Creates a new borrowing
+     *
+     * @param borrowing borrowing data to create
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createBorrowing(@RequestBody BorrowingEntity borrowing) {
         service.createBorrowing(borrowing);
     }
 
+    /**
+     * Extends an existing borrowing
+     *
+     * @param borrowing borrowing data containing new duration
+     * @param id borrowing ID
+     */
     @PatchMapping("/{id}")
     public void extendBorrowing(@RequestBody BorrowingEntity borrowing, @PathVariable long id) {
         service.extendBorrowing(id, borrowing.getDuration());
     }
 
+    /**
+     * Ends a borrowing by media ID
+     *
+     * @param mediaId media ID of the borrowing to delete
+     */
     @DeleteMapping
     public void deleteBorrowing(@RequestParam int mediaId) {
         service.endBorrowing(mediaId);

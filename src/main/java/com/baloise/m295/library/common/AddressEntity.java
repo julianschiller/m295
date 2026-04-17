@@ -24,7 +24,7 @@ public class AddressEntity {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     /**
      * Streetname and housenumber
      */

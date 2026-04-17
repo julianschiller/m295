@@ -25,5 +25,11 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long>{
      */
     List<CustomerEntity> findByAddress(AddressEntity address);
 
+    /**
+     * finds the customer on a specific address
+     * 
+     * @param addressId id of the address
+     * @return all customers with that address
+     */
     List<CustomerEntity> findByAddress_Id(Long addressId);
 }

@@ -1,0 +1,23 @@
+### Get all addresses
+GET http://localhost:8080/library/addresses
+
+
+### Get all addresses with zip
+GET http://localhost:8080/library/addresses?zip=4090
+
+### Get all addresses with address
+GET http://localhost:8080/library/addresses?address=Hochwalderstrasse%2023
+
+### Create new address
+POST http://localhost:8080/library/addresses
+Content-Type: application/json
+
+{
+    "address": "Hochwalderstrasse 23",
+    "city": "Roeschenz",
+    "zip": "4095"
+}
+
+### Delete addresss
+DELETE http://localhost:8080/library/addresses/1
+
