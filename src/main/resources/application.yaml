@@ -3,9 +3,9 @@ spring:
     name: aufgabe1
 
   datasource:
-    url: jdbc:mysql://${DATABASE_URL}
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://192.168.29.128:3306/m295
+    username: tech_user
+    password: admin12345
 
   jpa:
     hibernate:

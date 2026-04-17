@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.baloise.m295.library.persistence.entity.AddressEntity;
-import com.baloise.m295.library.persistence.entity.CustomerEntity;
+import com.baloise.m295.library.common.AddressEntity;
+import com.baloise.m295.library.common.CustomerEntity;
 
 /**
  * Repository for accessing CustomerEntity data
@@ -24,4 +24,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long>{
      * @return list of matching customers
      */
     List<CustomerEntity> findByAddress(AddressEntity address);
+
+    List<CustomerEntity> findByAddress_Id(Long addressId);
 }

@@ -1,4 +1,4 @@
-package com.baloise.m295.library.persistence.entity;
+package com.baloise.m295.library.common;
 
 import java.util.Date;
 

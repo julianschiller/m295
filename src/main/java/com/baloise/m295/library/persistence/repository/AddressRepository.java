@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.baloise.m295.library.persistence.entity.AddressEntity;
+import com.baloise.m295.library.common.AddressEntity;
 
 /**
  * Repository for accessing AddressEntity data
