@@ -1,0 +1,710 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Generated server url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Customers",
+            "description": "CRUD-Operations for the customers"
+        },
+        {
+            "name": "Medias",
+            "description": "CRUD-Operations for the medias"
+        },
+        {
+            "name": "Addresses",
+            "description": "CRUD-Operations for the addresses"
+        },
+        {
+            "name": "Borrowings",
+            "description": "CRUD-Operations for the borrowings"
+        }
+    ],
+    "paths": {
+        "/library/media": {
+            "get": {
+                "tags": [
+                    "Medias"
+                ],
+                "summary": "Get all medias, can optionally be filtered with a title",
+                "operationId": "getMedia",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of the found medias",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MediaEntity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Medias"
+                ],
+                "summary": "Create a new media",
+                "operationId": "createMedia",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MediaEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Media was successfully created"
+                    }
+                }
+            }
+        },
+        "/library/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get Customers by name or addressId",
+                "operationId": "getCustomers",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "addressId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all Customers with that name or addressId",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CustomerEntity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Create a new customer",
+                "operationId": "createCustomer",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "No address found with that id"
+                    },
+                    "201": {
+                        "description": "New customer was created"
+                    },
+                    "400": {
+                        "description": "No address was sent"
+                    }
+                }
+            }
+        },
+        "/library/borrowings": {
+            "get": {
+                "tags": [
+                    "Borrowings"
+                ],
+                "summary": "Get all borrowings",
+                "operationId": "getAllBorrowings",
+                "responses": {
+                    "200": {
+                        "description": "List of all active borrowings",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BorrowingEntity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Borrowings"
+                ],
+                "summary": "Create a new borrowing",
+                "operationId": "createBorrowing",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BorrowingEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created a new borrowing"
+                    },
+                    "404": {
+                        "description": "The customer or the media that is used in the borrowing doesn't exist"
+                    },
+                    "409": {
+                        "description": "The media is already borrowed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Borrowings"
+                ],
+                "summary": "End a borrowing",
+                "operationId": "deleteBorrowing",
+                "parameters": [
+                    {
+                        "name": "mediaId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Borrowing deleted"
+                    },
+                    "404": {
+                        "description": "Borrowing not found"
+                    }
+                }
+            }
+        },
+        "/library/addresses": {
+            "get": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get all addresses, can also be filtered by address or zip",
+                "operationId": "getAddresses",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "zip",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all addresses",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AddressEntity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Create new address",
+                "operationId": "createAddress",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddressEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Address created"
+                    }
+                }
+            }
+        },
+        "/library/media/{id}": {
+            "get": {
+                "tags": [
+                    "Medias"
+                ],
+                "summary": "Get a media by its id",
+                "operationId": "getMediaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The found media",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MediaEntity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No media with that id was found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MediaEntity"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Medias"
+                ],
+                "summary": "Delete a media",
+                "operationId": "deleteMedia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Media deleted"
+                    },
+                    "404": {
+                        "description": "No media found with that id"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Medias"
+                ],
+                "summary": "Edit a media",
+                "operationId": "editMedia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MediaEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Media was edited successfully"
+                    },
+                    "404": {
+                        "description": "No media found with that id"
+                    }
+                }
+            }
+        },
+        "/library/customers/{id}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get a Customer by his ID",
+                "operationId": "getCustomerById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The customer with the ID",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerEntity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No customer with that ID found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerEntity"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Delete a customer",
+                "operationId": "deleteCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Customer with that id wasn't found"
+                    },
+                    "204": {
+                        "description": "Customer successfully deleted"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Edit a customer",
+                "operationId": "editCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Customer successfully edited"
+                    },
+                    "404": {
+                        "description": "Customer with that id not found"
+                    }
+                }
+            }
+        },
+        "/library/borrowings/{id}": {
+            "patch": {
+                "tags": [
+                    "Borrowings"
+                ],
+                "summary": "Extend a borrowing by setting a new duration",
+                "operationId": "extendBorrowing",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BorrowingEntity"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "The borrowing doesn't exist"
+                    },
+                    "200": {
+                        "description": "New Duration was successfully set"
+                    }
+                }
+            }
+        },
+        "/library/addresses/{id}": {
+            "delete": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Delete an address",
+                "operationId": "deleteAddress",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Address deleted successfully"
+                    },
+                    "404": {
+                        "description": "No address with this id found"
+                    },
+                    "400": {
+                        "description": "User is still referencing the address"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "MediaEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the media",
+                        "example": "Harry Potter"
+                    },
+                    "author": {
+                        "type": "string",
+                        "description": "Author of the media",
+                        "example": "J.K. Rowling"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "description": "Genre of the media",
+                        "example": "Fantasy"
+                    },
+                    "minage": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Minimum age requirement in years",
+                        "example": 12
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "description": "ISBN number of the media",
+                        "example": "978-3-7549-5401-0"
+                    },
+                    "locationcode": {
+                        "type": "string",
+                        "description": "Code of where the media can be found in the library",
+                        "example": "A01-09-E3"
+                    }
+                }
+            },
+            "AddressEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Address with streetname and housenumber",
+                        "example": "Hoher Weg 23"
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "City of the address",
+                        "example": "Allschwil"
+                    },
+                    "zip": {
+                        "type": "string",
+                        "description": "zip code of the city",
+                        "example": 4123
+                    }
+                }
+            },
+            "CustomerEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "firstname": {
+                        "type": "string",
+                        "description": "Firstname of the customer",
+                        "example": "Peter"
+                    },
+                    "lastname": {
+                        "type": "string",
+                        "description": "Lastname of the customer",
+                        "example": "Mustermann"
+                    },
+                    "birthdate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Birthdate of the customer",
+                        "example": "2010-10-23"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the customer",
+                        "example": "peter.mustermann@gmail.com"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/AddressEntity",
+                        "description": "Address of the customer"
+                    }
+                }
+            },
+            "BorrowingEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "borrowdate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date of the start of the borrowing",
+                        "example": "2026-04-15"
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Duration of the borrowing in days",
+                        "example": 20
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/CustomerEntity",
+                        "description": "The customer that borrows the media"
+                    },
+                    "media": {
+                        "$ref": "#/components/schemas/MediaEntity",
+                        "description": "The media that gets borrowed"
+                    }
+                }
+            }
+        }
+    }
+}
