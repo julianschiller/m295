@@ -1,14 +1,18 @@
 ### Get all addresses
+# Expected: 200 OK, JSON array of all addresses
 GET http://localhost:8080/library/addresses
 
 
 ### Get all addresses with zip
+# Expected: 200 OK, JSON array of addresses with zip 4090
 GET http://localhost:8080/library/addresses?zip=4090
 
 ### Get all addresses with address
+# Expected: 200 OK, JSON array of addresses matching "Hochwalderstrasse 23"
 GET http://localhost:8080/library/addresses?address=Hochwalderstrasse%2023
 
 ### Create new address
+# Expected: 201 Created, address is persisted in the database
 POST http://localhost:8080/library/addresses
 Content-Type: application/json
 
@@ -18,19 +22,36 @@ Content-Type: application/json
     "zip": "4095"
 }
 
-### Delete addresss
+### Delete address
+# Expected: 204 No Content, address is removed from the database
 DELETE http://localhost:8080/library/addresses/3
 
+### Delete address that is still referenced by a customer
+# Expected: 400 Bad Request, address cannot be deleted because a customer still references it
+DELETE http://localhost:8080/library/addresses/1
+
+### Delete address that does not exist
+# Expected: 404 Not Found
+DELETE http://localhost:8080/library/addresses/9999
+
 ### Get all media
+# Expected: 200 OK, JSON array of all media
 GET http://localhost:8080/library/media
 
 ### Get media by title
+# Expected: 200 OK, JSON array of media with title "Harry Potter"
 GET http://localhost:8080/library/media?title=Harry%20Potter
 
 ### Get media by id
+# Expected: 200 OK, JSON object of the media with id 1
 GET http://localhost:8080/library/media/1
 
+### Get media by id that does not exist
+# Expected: 404 Not Found
+GET http://localhost:8080/library/media/9999
+
 ### Create new media
+# Expected: 201 Created, media is persisted in the database
 POST http://localhost:8080/library/media
 Content-Type: application/json
 
@@ -44,6 +65,7 @@ Content-Type: application/json
 }
 
 ### Update media (PATCH)
+# Expected: 200 OK, genre and minage are updated
 PATCH http://localhost:8080/library/media/1
 Content-Type: application/json
 
@@ -52,19 +74,41 @@ Content-Type: application/json
     "minage": 10
 }
 
+### Update media that does not exist
+# Expected: 404 Not Found
+PATCH http://localhost:8080/library/media/9999
+Content-Type: application/json
+
+{
+    "genre": "Adventure"
+}
+
 ### Delete media
+# Expected: 204 No Content, media is removed from the database
 DELETE http://localhost:8080/library/media/1
 
+### Delete media that does not exist
+# Expected: 404 Not Found
+DELETE http://localhost:8080/library/media/9999
+
 ### Get customer by id
+# Expected: 200 OK, JSON object of the customer with id 1
 GET http://localhost:8080/library/customers/1
 
+### Get customer by id that does not exist
+# Expected: 404 Not Found
+GET http://localhost:8080/library/customers/9999
+
 ### Get customers by name
+# Expected: 200 OK, JSON array of customers with lastname "Test"
 GET http://localhost:8080/library/customers?name=Test
 
 ### Get customers by addressId
+# Expected: 200 OK, JSON array of customers with address id 3
 GET http://localhost:8080/library/customers?addressId=3
 
 ### Create new customer with new address
+# Expected: 201 Created, customer and address are persisted in the database
 POST http://localhost:8080/library/customers
 Content-Type: application/json
 
@@ -81,6 +125,7 @@ Content-Type: application/json
 }
 
 ### Create new customer with existing address
+# Expected: 201 Created, customer is persisted and linked to existing address with id 3
 POST http://localhost:8080/library/customers
 Content-Type: application/json
 
@@ -94,7 +139,35 @@ Content-Type: application/json
     }
 }
 
+### Create new customer with address that does not exist
+# Expected: 404 Not Found, address with that id does not exist
+POST http://localhost:8080/library/customers
+Content-Type: application/json
+
+{
+    "firstname": "Max",
+    "lastname": "Test",
+    "birthdate": "2000-01-01",
+    "email": "max@meier.ch",
+    "address": {
+        "id": 9999
+    }
+}
+
+### Create new customer without address
+# Expected: 400 Bad Request, address is required
+POST http://localhost:8080/library/customers
+Content-Type: application/json
+
+{
+    "firstname": "Max",
+    "lastname": "Test",
+    "birthdate": "2000-01-01",
+    "email": "max@meier.ch"
+}
+
 ### Update customer
+# Expected: 200 OK, email is updated
 PATCH http://localhost:8080/library/customers/1
 Content-Type: application/json
 
@@ -102,13 +175,74 @@ Content-Type: application/json
     "email": "newmail@test.com"
 }
 
+### Update customer that does not exist
+# Expected: 404 Not Found
+PATCH http://localhost:8080/library/customers/9999
+Content-Type: application/json
+
+{
+    "email": "newmail@test.com"
+}
+
 ### Delete customer
+# Expected: 204 No Content, customer is removed from the database
 DELETE http://localhost:8080/library/customers/1
 
+### Delete customer that does not exist
+# Expected: 404 Not Found
+DELETE http://localhost:8080/library/customers/9999
+
 ### Get all borrowings
+# Expected: 200 OK, JSON array of all active borrowings
 GET http://localhost:8080/library/borrowings
 
 ### Create borrowing
+# Expected: 201 Created, borrowing is persisted with default borrowdate (today) and given duration
+POST http://localhost:8080/library/borrowings
+Content-Type: application/json
+
+{
+    "duration": 14,
+    "customer": {
+        "id": 3
+    },
+    "media": {
+        "id": 2
+    }
+}
+
+### Create borrowing with non-existing customer
+# Expected: 404 Not Found, customer does not exist
+POST http://localhost:8080/library/borrowings
+Content-Type: application/json
+
+{
+    "duration": 14,
+    "customer": {
+        "id": 9999
+    },
+    "media": {
+        "id": 2
+    }
+}
+
+### Create borrowing with non-existing media
+# Expected: 404 Not Found, media does not exist
+POST http://localhost:8080/library/borrowings
+Content-Type: application/json
+
+{
+    "duration": 14,
+    "customer": {
+        "id": 3
+    },
+    "media": {
+        "id": 9999
+    }
+}
+
+### Create borrowing with already borrowed media
+# Expected: 409 Conflict, media is already borrowed
 POST http://localhost:8080/library/borrowings
 Content-Type: application/json
 
@@ -123,6 +257,7 @@ Content-Type: application/json
 }
 
 ### Extend borrowing (PATCH)
+# Expected: 200 OK, duration is updated to 28 days
 PATCH http://localhost:8080/library/borrowings/1
 Content-Type: application/json
 
@@ -130,5 +265,19 @@ Content-Type: application/json
     "duration": 28
 }
 
+### Extend borrowing that does not exist
+# Expected: 404 Not Found
+PATCH http://localhost:8080/library/borrowings/9999
+Content-Type: application/json
+
+{
+    "duration": 28
+}
+
 ### End borrowing (by mediaId)
+# Expected: 204 No Content, borrowing is deleted
 DELETE http://localhost:8080/library/borrowings?mediaId=2
+
+### End borrowing with non-existing mediaId
+# Expected: 404 Not Found, no borrowing found for that media
+DELETE http://localhost:8080/library/borrowings?mediaId=9999
