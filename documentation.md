@@ -207,27 +207,37 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Alle Adressen abrufen
 **Request:** `GET /library/addresses`
+
 **Erwartet:** 200 OK, JSON Array mit allen Adressen
+
 ![Get all addresses](./screenshots/01-get-all-addresses.png)
 
 #### Adressen nach Postleitzahl filtern
 **Request:** `GET /library/addresses?zip=4090`
+
 **Erwartet:** 200 OK, JSON Array mit Adressen mit PLZ 4090
+
 ![Get addresses by zip](./screenshots/02-get-address-with-specific-zip.png)
 
 #### Adressen nach Strasse filtern
 **Request:** `GET /library/addresses?address=Hochwalderstrasse 23`
+
 **Erwartet:** 200 OK, JSON Array mit passenden Adressen
+
 ![Get addresses by address](./screenshots/03-get-all-addresses-with-specific-address.png)
 
 #### Neue Adresse erstellen
 **Request:** `POST /library/addresses`
+
 **Erwartet:** 201 Created, Adresse wird in der Datenbank gespeichert
+
 ![Create new address](./screenshots/04-create-new-address.png)
 
 #### Adresse löschen
 **Request:** `DELETE /library/addresses/2`
+
 **Erwartet:** 204 No Content, Adresse wird gelöscht
+
 ![Delete address](./screenshots/05-delete-address.png)
 
 #### Verifikation: GET nach dem Löschen
@@ -235,12 +245,16 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Referenzierte Adresse löschen
 **Request:** `DELETE /library/addresses/4`
+
 **Erwartet:** 400 Bad Request, Adresse wird noch von einem Kunden referenziert
+
 ![Delete referenced address](./screenshots/06-try-to-delete-referenced-address.png)
 
 #### Nicht existierende Adresse löschen
 **Request:** `DELETE /library/addresses/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Delete non-existing address](./screenshots/07-delete-non-existing-address.png)
 
 <div style="page-break-after: always;"></div>
@@ -249,42 +263,58 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Alle Medien abrufen
 **Request:** `GET /library/media`
+
 **Erwartet:** 200 OK, JSON Array mit allen Medien
+
 ![Get all media](./screenshots/08-get-all-medias.png)
 
 #### Medien nach Titel filtern
 **Request:** `GET /library/media?title=Harry Potter`
+
 **Erwartet:** 200 OK, JSON Array mit Medien mit Titel "Harry Potter"
+
 ![Get media by title](./screenshots/09-get-all-medias-with-specific-title.png)
 
 #### Medium nach ID abrufen
 **Request:** `GET /library/media/2`
+
 **Erwartet:** 200 OK, JSON Objekt des Mediums
+
 ![Get media by id](./screenshots/10-get-media-by-id.png)
 
 #### Nicht existierendes Medium abrufen
 **Request:** `GET /library/media/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Get non-existing media](./screenshots/11-get-non-existing-media-by-id.png)
 
 #### Neues Medium erstellen
 **Request:** `POST /library/media`
+
 **Erwartet:** 201 Created, JSON Objekt des erstellten Mediums
+
 ![Create new media](./screenshots/12-create-new-media.png)
 
 #### Medium bearbeiten
 **Request:** `PATCH /library/media/5`
+
 **Erwartet:** 200 OK, Genre und Mindestalter werden aktualisiert
+
 ![Edit media](./screenshots/13-edit-media.png)
 
 #### Nicht existierendes Medium bearbeiten
 **Request:** `PATCH /library/media/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Update non-existing media](./screenshots/14-update-non-existing-media.png)
 
 #### Medium löschen
 **Request:** `DELETE /library/media/4`
+
 **Erwartet:** 204 No Content, Medium wird gelöscht
+
 ![Delete media](./screenshots/15-deleted-media.png)
 
 #### Verifikation: GET nach dem Löschen
@@ -292,12 +322,16 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Ausgeliehenes Medium löschen
 **Request:** `DELETE /library/media/2`
+
 **Erwartet:** 409 Conflict, Medium ist noch ausgeliehen
+
 ![Delete borrowed media](./screenshots/16-try-to-delete-borrowed-media.png)
 
 #### Nicht existierendes Medium löschen
 **Request:** `DELETE /library/media/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Delete non-existing media](./screenshots/17-delete-media-with-non-existing-id.png)
 
 <div style="page-break-after: always;"></div>
@@ -306,57 +340,79 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Kunde nach ID abrufen
 **Request:** `GET /library/customers/1`
+
 **Erwartet:** 200 OK, JSON Objekt des Kunden
+
 ![Get customer by id](./screenshots/18-get-customer-with-specific-id.png)
 
 #### Nicht existierenden Kunden abrufen
 **Request:** `GET /library/customers/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Get non-existing customer](./screenshots/19-get-customer-with-non-existing-id.png)
 
 #### Kunden nach Nachname filtern
 **Request:** `GET /library/customers?name=Test`
+
 **Erwartet:** 200 OK, JSON Array mit passenden Kunden
+
 ![Get customers by name](./screenshots/20-get-customers-by-lastname.png)
 
 #### Kunden nach Adress-ID filtern
 **Request:** `GET /library/customers?addressId=3`
+
 **Erwartet:** 200 OK, JSON Array mit Kunden an dieser Adresse
+
 ![Get customers by address](./screenshots/21-get-customers-by-address-id.png)
 
 #### Neuen Kunden mit neuer Adresse erstellen
 **Request:** `POST /library/customers`
+
 **Erwartet:** 201 Created, Kunde und Adresse werden erstellt
+
 ![Create customer with new address](./screenshots/22-create-new-customer-with-new-address.png)
 
 #### Neuen Kunden mit bestehender Adresse erstellen
 **Request:** `POST /library/customers`
+
 **Erwartet:** 201 Created, Kunde wird mit bestehender Adresse verknüpft
+
 ![Create customer with existing address](./screenshots/23-create-new-customer-with-existing-address.png)
 
 #### Kunden mit nicht existierender Adresse erstellen
 **Request:** `POST /library/customers`
+
 **Erwartet:** 404 Not Found, Adresse existiert nicht
+
 ![Create customer with non-existing address](./screenshots/24-create-new-customer-with-non-existing-address.png)
 
 #### Kunden ohne Adresse erstellen
 **Request:** `POST /library/customers`
+
 **Erwartet:** 400 Bad Request, Adresse ist erforderlich
+
 ![Create customer without address](./screenshots/25-create-new-customer-with-no-address.png)
 
 #### Kunden bearbeiten
 **Request:** `PATCH /library/customers/1`
+
 **Erwartet:** 200 OK, E-Mail wird aktualisiert
+
 ![Edit customer](./screenshots/26-edit-customer.png)
 
 #### Nicht existierenden Kunden bearbeiten
 **Request:** `PATCH /library/customers/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Edit non-existing customer](./screenshots/27-edit-non-existing-customer.png)
 
 #### Kunden löschen
 **Request:** `DELETE /library/customers/1`
+
 **Erwartet:** 204 No Content, Kunde wird gelöscht
+
 ![Delete customer](./screenshots/28-delete-customer.png)
 
 #### Verifikation: GET nach dem Löschen
@@ -364,12 +420,16 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Kunden mit offener Ausleihe löschen
 **Request:** `DELETE /library/customers/3`
+
 **Erwartet:** 409 Conflict, Kunde hat noch offene Ausleihen
+
 ![Delete customer with open borrowing](./screenshots/29-try-to-delete-customer-with-open-borrowing.png)
 
 #### Nicht existierenden Kunden löschen
 **Request:** `DELETE /library/customers/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Delete non-existing customer](./screenshots/30-try-to-delete-non-existing-customer.png)
 
 <div style="page-break-after: always;"></div>
@@ -378,42 +438,58 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Alle Ausleihen abrufen
 **Request:** `GET /library/borrowings`
+
 **Erwartet:** 200 OK, JSON Array mit allen aktiven Ausleihen
+
 ![Get all borrowings](./screenshots/31-get-all-borrowings.png)
 
 #### Neue Ausleihe erstellen
 **Request:** `POST /library/borrowings`
+
 **Erwartet:** 201 Created, Ausleihe wird mit heutigem Datum erstellt
+
 ![Create borrowing](./screenshots/32-create-new-borrowing.png)
 
 #### Ausleihe mit nicht existierendem Kunden erstellen
 **Request:** `POST /library/borrowings`
+
 **Erwartet:** 404 Not Found, Kunde existiert nicht
+
 ![Create borrowing with non-existing customer](./screenshots/33-create-new-borrowing-with-non-existing-customer.png)
 
 #### Ausleihe mit nicht existierendem Medium erstellen
 **Request:** `POST /library/borrowings`
+
 **Erwartet:** 404 Not Found, Medium existiert nicht
+
 ![Create borrowing with non-existing media](./screenshots/34-create-new-borrowing-with-non-existing-media.png)
 
 #### Ausleihe mit bereits ausgeliehenem Medium erstellen
 **Request:** `POST /library/borrowings`
+
 **Erwartet:** 409 Conflict, Medium ist bereits ausgeliehen
+
 ![Create borrowing with already borrowed media](./screenshots/35-create-borrowing-with-already-borrowed-media.png)
 
 #### Ausleihe verlängern
 **Request:** `PATCH /library/borrowings/6`
+
 **Erwartet:** 200 OK, Dauer wird auf 28 Tage aktualisiert
+
 ![Extend borrowing](./screenshots/36-edit-borrowing.png)
 
 #### Nicht existierende Ausleihe verlängern
 **Request:** `PATCH /library/borrowings/9999`
+
 **Erwartet:** 404 Not Found
+
 ![Extend non-existing borrowing](./screenshots/37-edit-non-existing-borrowing.png)
 
 #### Ausleihe beenden
 **Request:** `DELETE /library/borrowings?mediaId=5`
+
 **Erwartet:** 204 No Content, Ausleihe wird gelöscht
+
 ![End borrowing](./screenshots/38-delete-borrowing.png)
 
 #### Verifikation: GET nach dem Beenden
@@ -421,5 +497,7 @@ Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jede
 
 #### Ausleihe mit nicht existierender Media-ID beenden
 **Request:** `DELETE /library/borrowings?mediaId=9999`
+
 **Erwartet:** 404 Not Found
+
 ![End non-existing borrowing](./screenshots/39-delete-non-existing-borrowing.png)
