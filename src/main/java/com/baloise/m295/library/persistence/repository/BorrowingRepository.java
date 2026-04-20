@@ -23,7 +23,7 @@ public interface BorrowingRepository extends JpaRepository<BorrowingEntity, Long
     /**
      * finds all borrowings of a customer
      * 
-     * @param mediaId id of the customer
+     * @param customerId id of the customer
      * @return all borrowings
      */
     List<BorrowingEntity> findByCustomer_Id(int customerId);

@@ -1,6 +1,5 @@
 package com.baloise.m295.library.common;
 
-import java.util.Date;
 import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
