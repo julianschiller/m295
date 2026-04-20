@@ -14,19 +14,23 @@ import com.baloise.m295.library.common.CustomerEntity;
 public interface CustomerRepository extends JpaRepository<CustomerEntity, Long>{
 
     /**
+     * find all customers with specific lastname
+     * 
      * @param lastname lastname of the customer
      * @return List of matching customers
      */
     List<CustomerEntity> findByLastname(String lastname);
     
     /**
+     * find all customers with a specific address (uses the entity)
+     * 
      * @param address address of the customer
      * @return list of matching customers
      */
     List<CustomerEntity> findByAddress(AddressEntity address);
 
     /**
-     * finds the customer on a specific address
+     * finds the customer on a specific address (uses the id of the entity)
      * 
      * @param addressId id of the address
      * @return all customers with that address
