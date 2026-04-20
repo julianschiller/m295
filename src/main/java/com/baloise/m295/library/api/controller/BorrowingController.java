@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baloise.m295.library.business.service.BorrowingService;
 import com.baloise.m295.library.common.BorrowingEntity;
 
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -28,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/library/borrowings")
 @RequiredArgsConstructor
+@Tag(name="Borrowings", description="CRUD-Operation for the borrowing")
 public class BorrowingController {
 
     private final BorrowingService service;
@@ -38,6 +44,8 @@ public class BorrowingController {
      * @return list of all borrowings
      */
     @GetMapping
+    @Operation(summary="Get all borrowings")
+    @ApiResponse(responseCode="200", description="List of all active borrowings")
     public List<BorrowingEntity> getAllBorrowings() {
         return service.getAllBorrowings();
     }
@@ -49,6 +57,12 @@ public class BorrowingController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary="Create a new borrowing")
+    @ApiResponses({
+        @ApiResponse(responseCode="201", description="Successfully created a new borrowing"),
+        @ApiResponse(responseCode="404", description="The customer or the media that is used in the borrowing doesn't exist"),
+        @ApiResponse(responseCode="409", description="The media is already borrowed")
+    })
     public void createBorrowing(@RequestBody BorrowingEntity borrowing) {
         service.createBorrowing(borrowing);
     }
@@ -60,6 +74,11 @@ public class BorrowingController {
      * @param id borrowing ID
      */
     @PatchMapping("/{id}")
+    @Operation(summary="Extend a borrowing by setting a new duration")
+    @ApiResponses({
+        @ApiResponse(responseCode="200", description="New Duration was successfully set"),
+        @ApiResponse(responseCode="404", description="The borrowing doesn't exist")
+    })
     public void extendBorrowing(@RequestBody BorrowingEntity borrowing, @PathVariable long id) {
         service.extendBorrowing(id, borrowing.getDuration());
     }
@@ -70,6 +89,12 @@ public class BorrowingController {
      * @param mediaId media ID of the borrowing to delete
      */
     @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="End a borrowing")
+    @ApiResponses({
+        @ApiResponse(responseCode="204", description="Borrowing deleted"),
+        @ApiResponse(responseCode="404", description="Borrowing not found")
+    })
     public void deleteBorrowing(@RequestParam int mediaId) {
         service.endBorrowing(mediaId);
     }

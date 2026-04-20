@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baloise.m295.library.business.service.MediaService;
 import com.baloise.m295.library.common.MediaEntity;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -30,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RestController
 @RequestMapping("/library/media")
 @RequiredArgsConstructor
+@Tag(name="Medias", description="CRUD-Operations for the medias")
 public class MediaController {
 
     private final MediaService service;
@@ -41,6 +47,8 @@ public class MediaController {
      * @return list of media entries
      */
     @GetMapping
+    @Operation(summary="Get all medias, can optionally be filtered with a title")
+    @ApiResponse(responseCode="200", description="List of the found medias")
     public List<MediaEntity> getMedia(@RequestParam(required = false) String title) {
         if (title != null) {
             return service.getAllFilteredByTitle(title);
@@ -56,6 +64,11 @@ public class MediaController {
      * @return media entity
      */
     @GetMapping("/{id}")
+    @Operation(summary="Get a media by its id")
+    @ApiResponses({
+        @ApiResponse(responseCode="200", description="The found media"),
+        @ApiResponse(responseCode="404", description="No media with that id was found")
+    })
     public MediaEntity getMediaById(@PathVariable long id) {
         return service.getMediaById(id);
     }
@@ -67,6 +80,8 @@ public class MediaController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary="Create a new media")
+    @ApiResponse(responseCode="201", description="Media was successfully created")
     public void createMedia(@RequestBody MediaEntity media) {
         service.createNewMedia(media);
     }
@@ -78,6 +93,11 @@ public class MediaController {
      * @param id media ID
      */
     @PatchMapping("/{id}")
+    @Operation(summary="Edit a media")
+    @ApiResponses({
+        @ApiResponse(responseCode="200", description="Media was edited successfully"),
+        @ApiResponse(responseCode="404", description="No media found with that id")
+    })
     public void editMedia(@RequestBody MediaEntity media, @PathVariable long id) {
         service.editMedia(id, media);
     }
@@ -89,6 +109,11 @@ public class MediaController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Delete a media")
+    @ApiResponses({
+        @ApiResponse(responseCode="204", description="Media deleted"),
+        @ApiResponse(responseCode="404", description="No media found with that id")
+    })
     public void deleteMedia(@PathVariable long id) {
         service.deleteMedia(id);
     }

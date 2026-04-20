@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baloise.m295.library.business.service.CustomerService;
 import com.baloise.m295.library.common.CustomerEntity;
 
-import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RestController
 @RequestMapping("/library/customers")
 @RequiredArgsConstructor
+@Tag(name="Customers", description="CRUD-Operations for the customers")
 public class CustomerController {
 
     private final CustomerService service;
@@ -40,7 +45,12 @@ public class CustomerController {
      * @param id customer ID
      * @return customer entity
      */
-    @GetMapping("/{id}") 
+    @GetMapping("/{id}")
+    @Operation(summary="get a Customer by his ID")
+    @ApiResponses({
+        @ApiResponse(responseCode="200", description="The customer with the ID"),
+        @ApiResponse(responseCode="404", description="No customer with that ID found")
+    })
     public CustomerEntity getCustomerById(@PathVariable long id) {
         return service.getCustomer(id);
     }
@@ -53,6 +63,8 @@ public class CustomerController {
      * @return list of matching customers
      */
     @GetMapping
+    @Operation(summary="Get Customers by name or addressId")
+    @ApiResponse(responseCode="200", description="List of all Customers with that name or addressId")
     public List<CustomerEntity> getCustomers(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long addressId) {
@@ -66,6 +78,12 @@ public class CustomerController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary="Create a new customer")
+    @ApiResponses({
+        @ApiResponse(responseCode="201", description="New customer was created"),
+        @ApiResponse(responseCode="400", description="No address was sent"),
+        @ApiResponse(responseCode="404", description="No address found with that id")
+    })
     public void createCustomer(@RequestBody CustomerEntity customer){
         service.createNewCustomer(customer);
     }
@@ -77,6 +95,11 @@ public class CustomerController {
      * @param id customer ID
      */
     @PatchMapping("/{id}")
+    @Operation(summary="Edit a customer")
+    @ApiResponses({
+        @ApiResponse(responseCode="200", description="Customer successfully edited"),
+        @ApiResponse(responseCode="404", description="Customer with that id not found")
+    })
     public void editCustomer(@RequestBody CustomerEntity customer, @PathVariable long id) {
         service.editCustomer(id, customer);
     }
@@ -88,6 +111,11 @@ public class CustomerController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Delete a customer")
+    @ApiResponses({
+        @ApiResponse(responseCode="204", description="Customer successfully deleted"),
+        @ApiResponse(responseCode="404", description="Customer with that id wasn't found")
+    })
     public void deleteCustomer(@PathVariable long id) {
         service.deleteCustomer(id);
     }
