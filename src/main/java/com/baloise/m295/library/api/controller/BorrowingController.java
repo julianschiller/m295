@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/library/borrowings")
 @RequiredArgsConstructor
-@Tag(name="Borrowings", description="CRUD-Operations for the borrowing")
+@Tag(name="Borrowings", description="CRUD-Operations for the borrowings")
 public class BorrowingController {
 
     private final BorrowingService service;

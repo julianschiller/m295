@@ -31,7 +31,7 @@ public class AddressEntity {
      * Streetname and housenumber
      */
     @Column(nullable=false, length=40)
-    @Schema(description="Addres with streetname and housenumber", example="Hoher Weg 23")
+    @Schema(description="Address with streetname and housenumber", example="Hoher Weg 23")
     private String address;
     @Column(nullable=false, length=30)
     @Schema(description="City of the address", example="Allschwil")
