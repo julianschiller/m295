@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/library/addresses")
 @RequiredArgsConstructor
-@Tag(name="Addresses", description="CRUD-Operation for the addresses")
+@Tag(name="Addresses", description="CRUD-Operations for the addresses")
 public class AddressController {
 
     private final AddressService service;
@@ -44,7 +44,7 @@ public class AddressController {
      * @return list of matching addresses
      */
     @GetMapping
-    @Operation(summary="Get all addresses")
+    @Operation(summary="Get all addresses, can also be filtered by address or zip")
     @ApiResponse(responseCode="200", description="List of all addresses")
     public List<AddressEntity> getAddresses(
             @RequestParam(required = false) String address,
@@ -72,9 +72,9 @@ public class AddressController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary="delete address")
+    @Operation(summary="Delete an address")
     @ApiResponses({
-        @ApiResponse(responseCode="204", description="Address deleted succesfully"),
+        @ApiResponse(responseCode="204", description="Address deleted successfully"),
         @ApiResponse(responseCode="400", description="User is still referencing the address"),
         @ApiResponse(responseCode="404", description="No address with this id found")
     })

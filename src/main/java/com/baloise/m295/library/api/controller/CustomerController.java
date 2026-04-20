@@ -46,7 +46,7 @@ public class CustomerController {
      * @return customer entity
      */
     @GetMapping("/{id}")
-    @Operation(summary="get a Customer by his ID")
+    @Operation(summary="Get a Customer by his ID")
     @ApiResponses({
         @ApiResponse(responseCode="200", description="The customer with the ID"),
         @ApiResponse(responseCode="404", description="No customer with that ID found")

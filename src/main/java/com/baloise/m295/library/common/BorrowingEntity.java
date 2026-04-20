@@ -2,6 +2,8 @@ package com.baloise.m295.library.common;
 
 import java.util.Date;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,17 +31,21 @@ public class BorrowingEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @Column(nullable=false, columnDefinition="date")
+    @Schema(description="Date of the start of the borrowing", example="2026-04-15")
     private Date borrowdate;
     /**
      * duration of the borrowing in days
      */
     @Column(nullable=false)
+    @Schema(description="Duration of the borrowing in days", example="20")
     private Short duration;
     @ManyToOne
     @JoinColumn(name="customerid", nullable=false)
+    @Schema(description="The customer that borrows the media")
     private CustomerEntity customer;
     @ManyToOne()
     @JoinColumn(name="mediaid", nullable=false)
+    @Schema(description="The media that gets borrowed")
     private MediaEntity media;
 
     /**
