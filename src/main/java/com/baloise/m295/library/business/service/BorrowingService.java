@@ -15,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service class for handling borrowing business logic
- * Responsible for creating, updating, and deleting borrowings as well as validating business rules
+ * Responsible for creating, updating, and deleting borrowings as well as
+ * validating business rules
  *
  * @author Julian Schiller
  */
@@ -43,29 +44,30 @@ public class BorrowingService {
      * - media is not already borrowed
      *
      * @param borrowing borrowing entity to create
-     * @throws ResponseStatusException if validation fails
+     * @return the saved BorrowingEntity
      */
-    public void createBorrowing(BorrowingEntity borrowing) {
+    public BorrowingEntity createBorrowing(BorrowingEntity borrowing) {
         checkIfUserExists(borrowing.getCustomer().getId());
         checkIfMediaExists(borrowing.getMedia().getId());
         checkIfMediaIsAvailable(borrowing.getMedia().getId().intValue());
 
-        repo.save(borrowing);
+        return repo.save(borrowing);
     }
 
     /**
      * Extends the duration of an existing borrowing.
      *
-     * @param id borrowing ID
+     * @param id       borrowing ID
      * @param duration new duration in days
+     * @return the edited Entity
      * @throws ResponseStatusException if borrowing is not found
      */
-    public void extendBorrowing(long id, short duration) {
+    public BorrowingEntity extendBorrowing(long id, short duration) {
         BorrowingEntity entity = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrowing not found"));
 
         entity.setDuration(duration);
-        repo.save(entity);
+        return repo.save(entity);
     }
 
     /**

@@ -54,6 +54,7 @@ public class BorrowingController {
      * Creates a new borrowing
      *
      * @param borrowing borrowing data to create
+     * @return the saved BorrowingEntity
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,8 +64,8 @@ public class BorrowingController {
         @ApiResponse(responseCode="404", description="The customer or the media that is used in the borrowing doesn't exist"),
         @ApiResponse(responseCode="409", description="The media is already borrowed")
     })
-    public void createBorrowing(@RequestBody BorrowingEntity borrowing) {
-        service.createBorrowing(borrowing);
+    public BorrowingEntity createBorrowing(@RequestBody BorrowingEntity borrowing) {
+        return service.createBorrowing(borrowing);
     }
 
     /**
@@ -72,6 +73,7 @@ public class BorrowingController {
      *
      * @param borrowing borrowing data containing new duration
      * @param id borrowing ID
+     * @return the edited Entity
      */
     @PatchMapping("/{id}")
     @Operation(summary="Extend a borrowing by setting a new duration")
@@ -79,8 +81,8 @@ public class BorrowingController {
         @ApiResponse(responseCode="200", description="New Duration was successfully set"),
         @ApiResponse(responseCode="404", description="The borrowing doesn't exist")
     })
-    public void extendBorrowing(@RequestBody BorrowingEntity borrowing, @PathVariable long id) {
-        service.extendBorrowing(id, borrowing.getDuration());
+    public BorrowingEntity extendBorrowing(@RequestBody BorrowingEntity borrowing, @PathVariable long id) {
+        return service.extendBorrowing(id, borrowing.getDuration());
     }
 
     /**

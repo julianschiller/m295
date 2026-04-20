@@ -75,6 +75,7 @@ public class CustomerController {
      * Creates a new customer
      *
      * @param customer customer data to create
+     * @return the created CustomerEntity
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -84,8 +85,8 @@ public class CustomerController {
         @ApiResponse(responseCode="400", description="No address was sent"),
         @ApiResponse(responseCode="404", description="No address found with that id")
     })
-    public void createCustomer(@RequestBody CustomerEntity customer){
-        service.createNewCustomer(customer);
+    public CustomerEntity createCustomer(@RequestBody CustomerEntity customer){
+        return service.createNewCustomer(customer);
     }
 
     /**
@@ -93,6 +94,7 @@ public class CustomerController {
      *
      * @param customer updated customer data
      * @param id customer ID
+     * @return the edited CustomerEntity
      */
     @PatchMapping("/{id}")
     @Operation(summary="Edit a customer")
@@ -100,8 +102,8 @@ public class CustomerController {
         @ApiResponse(responseCode="200", description="Customer successfully edited"),
         @ApiResponse(responseCode="404", description="Customer with that id not found")
     })
-    public void editCustomer(@RequestBody CustomerEntity customer, @PathVariable long id) {
-        service.editCustomer(id, customer);
+    public CustomerEntity editCustomer(@RequestBody CustomerEntity customer, @PathVariable long id) {
+        return service.editCustomer(id, customer);
     }
 
     /**

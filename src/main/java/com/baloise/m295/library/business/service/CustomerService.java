@@ -70,8 +70,9 @@ public class CustomerService {
      * @param customer customer entity to persist
      * @throws ResponseStatusException when an id of adress is sent but the address
      *                                 doesnt exist
+     * @return the created CustomerEntity
      */
-    public void createNewCustomer(CustomerEntity customer) {
+    public CustomerEntity createNewCustomer(CustomerEntity customer) {
         AddressEntity address = customer.getAddress();
 
         if (address == null) {
@@ -88,7 +89,7 @@ public class CustomerService {
         }
 
         customer.setAddress(address);
-        repo.save(customer);
+        return repo.save(customer);
     }
 
     /**
@@ -98,14 +99,15 @@ public class CustomerService {
      * @param id              customer ID
      * @param updatedCustomer incoming updated data
      * @throws ResponseStatusException if customer is not found
+     * @return the edited CustomerEntity
      */
-    public void editCustomer(long id, CustomerEntity updatedCustomer) {
+    public CustomerEntity editCustomer(long id, CustomerEntity updatedCustomer) {
         CustomerEntity oldCustomer = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
 
         oldCustomer = mergeCustomers(updatedCustomer, oldCustomer);
 
-        repo.save(oldCustomer);
+        return repo.save(oldCustomer);
     }
 
     /**

@@ -58,9 +58,10 @@ public class MediaService {
      * Creates a new media entry in the database
      *
      * @param media media entity to persist
+     * @return the created MediaEntity
      */
-    public void createNewMedia(MediaEntity media) {
-        repo.save(media);
+    public MediaEntity createNewMedia(MediaEntity media) {
+        return repo.save(media);
     }
 
     /**
@@ -70,13 +71,14 @@ public class MediaService {
      * @param id media ID
      * @param updatedMedia incoming updated data
      * @throws ResponseStatusException if media is not found
+     * @return the edited MediaEntity
      */
-    public void editMedia(long id, MediaEntity updatedMedia) {
+    public MediaEntity editMedia(long id, MediaEntity updatedMedia) {
         MediaEntity oldMedia = repo.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"));
 
         oldMedia = mergeMedia(oldMedia, updatedMedia);
-        repo.save(oldMedia);
+        return repo.save(oldMedia);
     }
 
     /**

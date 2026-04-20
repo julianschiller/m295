@@ -77,13 +77,14 @@ public class MediaController {
      * Creates a new media entry
      *
      * @param media media data to create
+     * @return the created MediaEntity
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary="Create a new media")
     @ApiResponse(responseCode="201", description="Media was successfully created")
-    public void createMedia(@RequestBody MediaEntity media) {
-        service.createNewMedia(media);
+    public MediaEntity createMedia(@RequestBody MediaEntity media) {
+        return service.createNewMedia(media);
     }
 
     /**
@@ -91,6 +92,7 @@ public class MediaController {
      *
      * @param media updated media data
      * @param id media ID
+     * @return the edited media
      */
     @PatchMapping("/{id}")
     @Operation(summary="Edit a media")
@@ -98,8 +100,8 @@ public class MediaController {
         @ApiResponse(responseCode="200", description="Media was edited successfully"),
         @ApiResponse(responseCode="404", description="No media found with that id")
     })
-    public void editMedia(@RequestBody MediaEntity media, @PathVariable long id) {
-        service.editMedia(id, media);
+    public MediaEntity editMedia(@RequestBody MediaEntity media, @PathVariable long id) {
+        return service.editMedia(id, media);
     }
 
     /**

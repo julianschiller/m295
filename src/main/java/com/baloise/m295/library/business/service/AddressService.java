@@ -55,9 +55,10 @@ public class AddressService {
      * Creates a new address in the database
      *
      * @param address address entity to persist
+     * @return the created AddressEntity
      */
-    public void createAddress(AddressEntity address) {
-        repo.save(address);
+    public AddressEntity createAddress(AddressEntity address) {
+        return repo.save(address);
     }
 
     /**

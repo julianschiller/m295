@@ -1,4 +1,4 @@
-# Modul 295 - Dokumenation
+# Modul 295 - Dokumentation
 
 **Autor:** Julian Schiller
 
@@ -45,6 +45,8 @@ Der Benutzer | kann eine bestehende Ausleihe verlängern | PATCH
 Der Benutzer | kann eine Ausleihe beenden (über mediaId) | DELETE 
 
 ## 3. API Definition
+
+In diesem Abschnitt wird die gesamte API Definition aufgezeigt, es wird gezeigt welche URL's es gibt, der jeweilige Anwendungsfall und der Request Body
 
 ## Medien
 |URL|Methode|Anwendungsfall|Request Body|
@@ -173,7 +175,7 @@ Dauer ist optional (hat einen Standardwert), Kunde und Medium müssen gesendet w
 Dauer ist das einzige Attribut, das bearbeitet werden kann
 
 
-## 4. REST API Dokumenation
+## 4. REST API Dokumentation
 
 Die API Dokumentation kann im zip File mit dem Namen [api-docs.json](./api-docs.json) gefunden werden
 

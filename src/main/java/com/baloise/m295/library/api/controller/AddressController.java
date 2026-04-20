@@ -56,13 +56,14 @@ public class AddressController {
      * Creates a new address
      *
      * @param address address data to create
+     * @return the created AddressEntity
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary="Create new address")
     @ApiResponse(responseCode="201", description="Address created")
-    public void createAddress(@RequestBody AddressEntity address) {
-        service.createAddress(address);
+    public AddressEntity createAddress(@RequestBody AddressEntity address) {
+        return service.createAddress(address);
     }
 
     /**

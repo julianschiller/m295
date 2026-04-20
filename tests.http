@@ -18,17 +18,17 @@ Content-Type: application/json
 
 {
     "address": "Hochwalderstrasse 23",
-    "city": "Roeschenz",
-    "zip": "4095"
+    "city": "Anderer Ort",
+    "zip": "4090"
 }
 
 ### Delete address
 # Expected: 204 No Content, address is removed from the database
-DELETE http://localhost:8080/library/addresses/3
+DELETE http://localhost:8080/library/addresses/6
 
 ### Delete address that is still referenced by a customer
 # Expected: 400 Bad Request, address cannot be deleted because a customer still references it
-DELETE http://localhost:8080/library/addresses/1
+DELETE http://localhost:8080/library/addresses/4
 
 ### Delete address that does not exist
 # Expected: 404 Not Found
@@ -43,8 +43,8 @@ GET http://localhost:8080/library/media
 GET http://localhost:8080/library/media?title=Harry%20Potter
 
 ### Get media by id
-# Expected: 200 OK, JSON object of the media with id 1
-GET http://localhost:8080/library/media/1
+# Expected: 200 OK, JSON object of the media with id 2
+GET http://localhost:8080/library/media/2
 
 ### Get media by id that does not exist
 # Expected: 404 Not Found
@@ -66,7 +66,7 @@ Content-Type: application/json
 
 ### Update media (PATCH)
 # Expected: 200 OK, genre and minage are updated
-PATCH http://localhost:8080/library/media/1
+PATCH http://localhost:8080/library/media/2
 Content-Type: application/json
 
 {
