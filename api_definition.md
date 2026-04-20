@@ -26,9 +26,9 @@ Title and author need to be sent, everything else is optional
 ````json
 {
     "genre": "",
-    "minAge": 12,
+    "minage": 12,
     "isbn": "",
-    "locationCode": ""
+    "locationcode": ""
 }
 ````
 All attributes are optional, but these are the only ones, that are allowed to be edited
@@ -66,9 +66,9 @@ Every attribute needs to be sent
 #### POST
 ````json
 {
-    "firstName": "",
-    "lastName": "",
-    "birthDate": "YYYY-MM-DD",
+    "firstname": "",
+    "lastname": "",
+    "birthdate": "YYYY-MM-DD",
     "email": "",
     "address": {
         "address": "",
