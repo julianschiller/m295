@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.baloise.m295.library.common.MediaEntity;
 import com.baloise.m295.library.persistence.repository.MediaRepository;
+import com.baloise.m295.library.persistence.repository.BorrowingRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class MediaService {
 
     private final MediaRepository repo;
+    private final BorrowingRepository borrowingRepo;
 
     /**
      * Retrieves all media entries from the database
@@ -85,11 +87,16 @@ public class MediaService {
      * Deletes a media entry by ID
      *
      * @param id media ID
-     * @throws ResponseStatusException if media is not found
+     * @throws ResponseStatusException if media is not found or when the media is borrowed
      */
     public void deleteMedia(long id) {
         MediaEntity media = repo.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"));
+
+        if (borrowingRepo.findByMedia_Id((int) id).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                "Media is currently borrowed and cannot be deleted");
+        }
 
         repo.delete(media);
     }

@@ -1,6 +1,7 @@
 package com.baloise.m295.library.common;
 
 import java.util.Date;
+import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -32,7 +33,7 @@ public class BorrowingEntity {
     private Long id;
     @Column(nullable=false, columnDefinition="date")
     @Schema(description="Date of the start of the borrowing", example="2026-04-15")
-    private Date borrowdate;
+    private LocalDate borrowdate;
     /**
      * duration of the borrowing in days
      */
@@ -55,7 +56,7 @@ public class BorrowingEntity {
     @PrePersist
     public void prePersist() {
         if (borrowdate == null) {
-            borrowdate = new Date();
+            borrowdate = LocalDate.now();
         }
         if (duration == null) {
             duration = 14;

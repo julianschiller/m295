@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.baloise.m295.library.common.BorrowingEntity;
+import com.baloise.m295.library.common.CustomerEntity;
+import com.baloise.m295.library.common.MediaEntity;
 import com.baloise.m295.library.persistence.repository.BorrowingRepository;
 import com.baloise.m295.library.persistence.repository.CustomerRepository;
 import com.baloise.m295.library.persistence.repository.MediaRepository;
@@ -45,11 +47,17 @@ public class BorrowingService {
      *
      * @param borrowing borrowing entity to create
      * @return the saved BorrowingEntity
+     * @throws ResponseStatusException if customer or media does not exist
      */
     public BorrowingEntity createBorrowing(BorrowingEntity borrowing) {
-        checkIfUserExists(borrowing.getCustomer().getId());
-        checkIfMediaExists(borrowing.getMedia().getId());
+        CustomerEntity customer = customerRepo.findById(borrowing.getCustomer().getId()).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        MediaEntity media = mediaRepo.findById(borrowing.getMedia().getId()).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"));
         checkIfMediaIsAvailable(borrowing.getMedia().getId().intValue());
+        
+        borrowing.setCustomer(customer);
+        borrowing.setMedia(media);
 
         return repo.save(borrowing);
     }
@@ -81,30 +89,6 @@ public class BorrowingService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrowing not found"));
 
         repo.delete(entity);
-    }
-
-    /**
-     * Checks if a customer exists in the database.
-     *
-     * @param customerId ID of the customer
-     * @throws ResponseStatusException if customer does not exist
-     */
-    private void checkIfUserExists(Long customerId) {
-        if (!customerRepo.existsById(customerId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
-        }
-    }
-
-    /**
-     * Checks if a media item exists in the database.
-     *
-     * @param mediaId ID of the media
-     * @throws ResponseStatusException if media does not exist
-     */
-    private void checkIfMediaExists(Long mediaId) {
-        if (!mediaRepo.existsById(mediaId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found");
-        }
     }
 
     /**

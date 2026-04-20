@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### Delete address
 # Expected: 204 No Content, address is removed from the database
-DELETE http://localhost:8080/library/addresses/6
+DELETE http://localhost:8080/library/addresses/2
 
 ### Delete address that is still referenced by a customer
 # Expected: 400 Bad Request, address cannot be deleted because a customer still references it
@@ -51,26 +51,26 @@ GET http://localhost:8080/library/media/2
 GET http://localhost:8080/library/media/9999
 
 ### Create new media
-# Expected: 201 Created, media is persisted in the database
+# Expected: 201 Created, JSON object of the created media
 POST http://localhost:8080/library/media
 Content-Type: application/json
 
 {
-    "title": "Harry Potter",
-    "author": "J.K. Rowling",
+    "title": "Fourth Wing",
+    "author": "Rebecca Yarros",
     "genre": "Fantasy",
-    "minage": 12,
+    "minage": 14,
     "isbn": "978-3-16-148410-0",
     "locationcode": "A1"
 }
 
 ### Update media (PATCH)
-# Expected: 200 OK, genre and minage are updated
-PATCH http://localhost:8080/library/media/2
+# Expected: 200 OK, genre and minage are updated, JSON object of the edited media
+PATCH http://localhost:8080/library/media/5
 Content-Type: application/json
 
 {
-    "genre": "Adventure",
+    "genre": "Romantasy",
     "minage": 10
 }
 
@@ -85,7 +85,11 @@ Content-Type: application/json
 
 ### Delete media
 # Expected: 204 No Content, media is removed from the database
-DELETE http://localhost:8080/library/media/1
+DELETE http://localhost:8080/library/media/4
+
+### Delete borrowed media
+# Expected: 209 Conflict
+DELETE http://localhost:8080/library/media/2
 
 ### Delete media that does not exist
 # Expected: 404 Not Found
@@ -108,24 +112,24 @@ GET http://localhost:8080/library/customers?name=Test
 GET http://localhost:8080/library/customers?addressId=3
 
 ### Create new customer with new address
-# Expected: 201 Created, customer and address are persisted in the database
+# Expected: 201 Created, JSON object of the created customer
 POST http://localhost:8080/library/customers
 Content-Type: application/json
 
 {
-    "firstname": "Max",
-    "lastname": "Meier",
+    "firstname": "Hans",
+    "lastname": "Vettel",
     "birthdate": "2000-01-01",
     "email": "max@meier.ch",
     "address": {
-        "address": "Hochwalderstrasse 123",
-        "city": "Roeschenz",
+        "address": "Lustige Strasse 123",
+        "city": "Hinterhausen",
         "zip": "4095"
     }
 }
 
 ### Create new customer with existing address
-# Expected: 201 Created, customer is persisted and linked to existing address with id 3
+# Expected: 201 Created, JSON object of the created customer
 POST http://localhost:8080/library/customers
 Content-Type: application/json
 
@@ -167,12 +171,12 @@ Content-Type: application/json
 }
 
 ### Update customer
-# Expected: 200 OK, email is updated
+# Expected: 200 OK, email is updated, JSON object of the edited customer
 PATCH http://localhost:8080/library/customers/1
 Content-Type: application/json
 
 {
-    "email": "newmail@test.com"
+    "email": "newmail@crazy.com"
 }
 
 ### Update customer that does not exist
@@ -188,6 +192,10 @@ Content-Type: application/json
 # Expected: 204 No Content, customer is removed from the database
 DELETE http://localhost:8080/library/customers/1
 
+### Delete customer, that still has an open borrowing
+# Expected: 409 Conflict
+DELETE http://localhost:8080/library/customers/3
+
 ### Delete customer that does not exist
 # Expected: 404 Not Found
 DELETE http://localhost:8080/library/customers/9999
@@ -197,17 +205,17 @@ DELETE http://localhost:8080/library/customers/9999
 GET http://localhost:8080/library/borrowings
 
 ### Create borrowing
-# Expected: 201 Created, borrowing is persisted with default borrowdate (today) and given duration
+# Expected: 201 Created, borrowing is persisted with default borrowdate (today) and given duration, JSON object of the created borrowing
 POST http://localhost:8080/library/borrowings
 Content-Type: application/json
 
 {
     "duration": 14,
     "customer": {
-        "id": 3
+        "id": 4
     },
     "media": {
-        "id": 2
+        "id": 5
     }
 }
 
@@ -252,13 +260,13 @@ Content-Type: application/json
         "id": 3
     },
     "media": {
-        "id": 2
+        "id": 5
     }
 }
 
 ### Extend borrowing (PATCH)
-# Expected: 200 OK, duration is updated to 28 days
-PATCH http://localhost:8080/library/borrowings/1
+# Expected: 200 OK, JSON object of the edited borrowing with duration set to 28 days
+PATCH http://localhost:8080/library/borrowings/6
 Content-Type: application/json
 
 {
@@ -276,7 +284,7 @@ Content-Type: application/json
 
 ### End borrowing (by mediaId)
 # Expected: 204 No Content, borrowing is deleted
-DELETE http://localhost:8080/library/borrowings?mediaId=2
+DELETE http://localhost:8080/library/borrowings?mediaId=5
 
 ### End borrowing with non-existing mediaId
 # Expected: 404 Not Found, no borrowing found for that media

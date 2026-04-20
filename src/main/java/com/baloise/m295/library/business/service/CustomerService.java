@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.baloise.m295.library.common.AddressEntity;
 import com.baloise.m295.library.common.CustomerEntity;
 import com.baloise.m295.library.persistence.repository.AddressRepository;
+import com.baloise.m295.library.persistence.repository.BorrowingRepository;
 import com.baloise.m295.library.persistence.repository.CustomerRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class CustomerService {
 
     private final CustomerRepository repo;
     private final AddressRepository addressRepo;
+    private final BorrowingRepository borrowingRepo;
 
     /**
      * Retrieves a customer by its ID
@@ -140,6 +142,11 @@ public class CustomerService {
     public void deleteCustomer(long id) {
         CustomerEntity customer = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+
+        if (borrowingRepo.findByCustomer_Id((int) id).size() > 0) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Customer has an open borrowing and cannot be deleted");
+        }
 
         repo.delete(customer);
     }
