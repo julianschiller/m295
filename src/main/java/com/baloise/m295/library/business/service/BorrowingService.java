@@ -1,5 +1,6 @@
 package com.baloise.m295.library.business.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -68,13 +69,21 @@ public class BorrowingService {
      * @param id       borrowing ID
      * @param duration new duration in days
      * @return the edited Entity
-     * @throws ResponseStatusException if borrowing is not found
+     * @throws ResponseStatusException if borrowing is not found or it can't be extended because the media should already be returned
      */
-    public BorrowingEntity extendBorrowing(long id, short duration) {
+    public BorrowingEntity extendBorrowing(long id, Short duration) {
         BorrowingEntity entity = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrowing not found"));
+     
+        LocalDate returnDate = entity.getBorrowdate().plusDays(entity.getDuration());
+
+        // check if return date is before today
+        if (returnDate.atStartOfDay().isBefore(LocalDate.now().atStartOfDay())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Borrowing can't be extended");
+        }
 
         entity.setDuration(duration);
+                
         return repo.save(entity);
     }
 

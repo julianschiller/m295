@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>documentation.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="modul-295---dokumentation">Modul 295 - Dokumentation</h1>
+<p><strong>Autor:</strong> Julian Schiller</p>
+<p><strong>Datum:</strong> 24.04.2026</p>
+<h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
+<ol>
+<li><a href="#1-libraries-und-frameworks">Libraries und Frameworks</a></li>
+<li><a href="#2-api-analyse">API Analyse</a></li>
+<li><a href="#3-api-definition">API Definition</a></li>
+<li><a href="#4-rest-api-dokumentation">REST API Dokumentation</a></li>
+<li><a href="#5-testf%C3%A4lle">Testfälle</a>
+<ul>
+<li>5.1 <a href="#51-adressen">Adressen</a></li>
+<li>5.2 <a href="#52-medien">Medien</a></li>
+<li>5.3 <a href="#53-kunden">Kunden</a></li>
+<li>5.4 <a href="#54-ausleihen">Ausleihen</a></li>
+</ul>
+</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h2 id="1-libraries-und-frameworks">1. Libraries und Frameworks</h2>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Version</th>
+<th>Zweck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Boot</td>
+<td>4.0.5</td>
+<td>Application Framework</td>
+</tr>
+<tr>
+<td>Spring Data JPA</td>
+<td>-</td>
+<td>DB-Zugriff</td>
+</tr>
+<tr>
+<td>MySQL Connector</td>
+<td>-</td>
+<td>JDBC Driver</td>
+</tr>
+<tr>
+<td>Lombok</td>
+<td>-</td>
+<td>Reduktion von Boilerplate</td>
+</tr>
+<tr>
+<td>springdoc-openapi</td>
+<td>2.8.4</td>
+<td>API-Dokumentation via Swagger UI</td>
+</tr>
+</tbody>
+</table>
+<p>Als IDE wurde VS Code verwendet und als Programmiersprache Java 21. Als Build Tool wurde Gradle 8.14.4 verwendet und Groovy als DSL.
+Die History wurde mit Git gemacht, welches ebenfalls direkt mit einem <a href="https://github.com/julianschiller/m295">Github Repo</a> verbunden wurde um einen zweiten Speicherort zu haben.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="2-api-analyse">2. API Analyse</h2>
+<table>
+<thead>
+<tr>
+<th>Wer</th>
+<th>Anforderung</th>
+<th>HTTP-Methode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Der Benutzer</td>
+<td>kann alle Medienobjekte auflisten</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann Medien nach Titel suchen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann ein Medienobjekt anhand der ID abrufen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann ein neues Medienobjekt erstellen</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann ein bestehendes Medienobjekt aktualisieren</td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann ein Medienobjekt löschen</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann alle Adressen auflisten</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann Adressen nach Strasse und Hausnummer suchen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann Adressen nach Postleitzahl suchen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann eine neue Adresse erstellen</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann eine Adresse löschen (nur wenn sie nicht referenziert wird)</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann einen Kunden anhand der ID abrufen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann Kunden nach Namen suchen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann Kunden nach Adress-ID suchen</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann einen neuen Kunden erstellen</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann einen bestehenden Kunden aktualisieren</td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann einen Kunden löschen</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann alle Ausleihen auflisten</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann eine neue Ausleihe erstellen</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann eine bestehende Ausleihe verlängern</td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td>Der Benutzer</td>
+<td>kann eine Ausleihe beenden (über mediaId)</td>
+<td>DELETE</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<h2 id="3-api-definition">3. API Definition</h2>
+<p>In diesem Abschnitt wird die gesamte API Definition aufgezeigt, es wird gezeigt welche URL's es gibt, der jeweilige Anwendungsfall und der Request Body.</p>
+<h3 id="medien">Medien</h3>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Methode</th>
+<th>Anwendungsfall</th>
+<th>Request Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/library/media</td>
+<td>GET</td>
+<td>Alle Medien abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/media?title=</td>
+<td>GET</td>
+<td>Alle Medien mit bestimmtem Titel abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/media/{id}</td>
+<td>GET</td>
+<td>Ein Medium mit bestimmter ID abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/media</td>
+<td>POST</td>
+<td>Ein neues Medium erstellen</td>
+<td>Das neue Medium als JSON</td>
+</tr>
+<tr>
+<td>/library/media/{id}</td>
+<td>PATCH</td>
+<td>Ein bestehendes Medium bearbeiten</td>
+<td>Das bearbeitete Medium als JSON</td>
+</tr>
+<tr>
+<td>/library/media/{id}</td>
+<td>DELETE</td>
+<td>Ein Medium löschen</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json-struktur-post">JSON-Struktur POST</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"title"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"author"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"genre"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"minage"</span>:<span class="hljs-number">12</span>,
+    <span class="hljs-attr">"isbn"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"locationcode"</span>:<span class="hljs-string">""</span>
+}
+</div></code></pre>
+<p>Titel und Autor müssen gesendet werden, alles andere ist optional.</p>
+<h4 id="json-struktur-patch">JSON-Struktur PATCH</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"genre"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"minage"</span>:<span class="hljs-number">12</span>,
+    <span class="hljs-attr">"isbn"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"locationcode"</span>:<span class="hljs-string">""</span>
+}
+</div></code></pre>
+<p>Alle Attribute sind optional, aber nur diese dürfen bearbeitet werden.</p>
+<div style="page-break-after: always;"></div>
+<h3 id="adresse">Adresse</h3>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Methode</th>
+<th>Anwendungsfall</th>
+<th>Request Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/library/addresses</td>
+<td>GET</td>
+<td>Alle Adressen abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/addresses?address=</td>
+<td>GET</td>
+<td>Alle Adressen mit bestimmter Strasse und Hausnummer abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/addresses?zip=</td>
+<td>GET</td>
+<td>Alle Adressen mit bestimmter Postleitzahl abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/addresses</td>
+<td>POST</td>
+<td>Eine neue Adresse erstellen</td>
+<td>Die neue Adresse als JSON</td>
+</tr>
+<tr>
+<td>/library/addresses/{id}</td>
+<td>DELETE</td>
+<td>Eine Adresse löschen (schlägt fehl, wenn sie noch von einem Kunden referenziert wird)</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json-struktur-post">JSON-Struktur POST</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"address"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"city"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"zip"</span>:<span class="hljs-string">""</span>
+}
+</div></code></pre>
+<p>Alle Attribute müssen gesendet werden.</p>
+<h3 id="kunde">Kunde</h3>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Methode</th>
+<th>Anwendungsfall</th>
+<th>Request Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/library/customers/{id}</td>
+<td>GET</td>
+<td>Kunden mit bestimmter ID abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/customers?name=</td>
+<td>GET</td>
+<td>Alle Kunden mit bestimmtem Namen abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/customers?addressId=</td>
+<td>GET</td>
+<td>Alle Kunden mit bestimmter Adresse abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/customers</td>
+<td>POST</td>
+<td>Einen neuen Kunden erstellen</td>
+<td>Der neue Kunde als JSON</td>
+</tr>
+<tr>
+<td>/library/customers/{id}</td>
+<td>PATCH</td>
+<td>Einen bestehenden Kunden bearbeiten</td>
+<td>Der bearbeitete Kunde als JSON</td>
+</tr>
+<tr>
+<td>/library/customers/{id}</td>
+<td>DELETE</td>
+<td>Einen Kunden löschen</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json-struktur-post">JSON-Struktur POST</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"firstname"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"lastname"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"birthdate"</span>:<span class="hljs-string">"YYYY-MM-DD"</span>,
+    <span class="hljs-attr">"email"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"address"</span>:{
+        <span class="hljs-attr">"address"</span>:<span class="hljs-string">""</span>,
+        <span class="hljs-attr">"city"</span>:<span class="hljs-string">""</span>,
+        <span class="hljs-attr">"zip"</span>:<span class="hljs-string">""</span>
+    }
+}
+</div></code></pre>
+<p>Alle Attribute müssen gesendet werden.</p>
+<h4 id="json-struktur-patch">JSON-Struktur PATCH</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"email"</span>:<span class="hljs-string">""</span>,
+    <span class="hljs-attr">"address"</span>:{
+        <span class="hljs-attr">"address"</span>:<span class="hljs-string">""</span>,
+        <span class="hljs-attr">"city"</span>:<span class="hljs-string">""</span>,
+        <span class="hljs-attr">"zip"</span>:<span class="hljs-string">""</span>
+    }
+}
+</div></code></pre>
+<p>Alle Attribute sind optional, aber nur diese dürfen bearbeitet werden.</p>
+<div style="page-break-after: always;"></div>
+<h3 id="ausleihe">Ausleihe</h3>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Methode</th>
+<th>Anwendungsfall</th>
+<th>Request Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/library/borrowings</td>
+<td>GET</td>
+<td>Alle Ausleihen abrufen</td>
+<td>-</td>
+</tr>
+<tr>
+<td>/library/borrowings</td>
+<td>POST</td>
+<td>Eine neue Ausleihe erstellen</td>
+<td>Die neue Ausleihe als JSON</td>
+</tr>
+<tr>
+<td>/library/borrowings/{id}</td>
+<td>PATCH</td>
+<td>Eine bestehende Ausleihe verlängern</td>
+<td>Die bearbeitete Ausleihe als JSON</td>
+</tr>
+<tr>
+<td>/library/borrowings?mediaId=</td>
+<td>DELETE</td>
+<td>Eine Ausleihe beenden</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json-struktur-post">JSON-Struktur POST</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"duration"</span>:<span class="hljs-number">14</span>,
+    <span class="hljs-attr">"customer"</span>:{
+        <span class="hljs-attr">"id"</span>:<span class="hljs-number">3</span>
+    },
+    <span class="hljs-attr">"media"</span>:{
+        <span class="hljs-attr">"id"</span>:<span class="hljs-number">12</span>
+    }
+}
+</div></code></pre>
+<p>Dauer ist optional (hat einen Standardwert), Kunde und Medium müssen gesendet werden.</p>
+<h4 id="json-struktur-patch">JSON-Struktur PATCH</h4>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"duration"</span>:<span class="hljs-number">28</span>
+}
+</div></code></pre>
+<p>Dauer ist das einzige Attribut, das bearbeitet werden kann.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="4-rest-api-dokumentation">4. REST API Dokumentation</h2>
+<p>Die API Dokumentation kann im zip File mit dem Namen <a href="./api-docs.json">api-docs.json</a> gefunden werden.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="5-testf%C3%A4lle">5. Testfälle</h2>
+<p>Die Tests wurden mit der VS Code REST Client Extension manuell ausgeführt. Jeder Test zeigt den gesendeten Request und die erhaltene Response.</p>
+<h3 id="51-adressen">5.1 Adressen</h3>
+<h4 id="alle-adressen-abrufen">Alle Adressen abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/addresses</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit allen Adressen</p>
+<p><img src="./screenshots/01-get-all-addresses.png" alt="Get all addresses"></p>
+<h4 id="adressen-nach-postleitzahl-filtern">Adressen nach Postleitzahl filtern</h4>
+<p><strong>Request:</strong> <code>GET /library/addresses?zip=4090</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit Adressen mit PLZ 4090</p>
+<p><img src="./screenshots/02-get-address-with-specific-zip.png" alt="Get addresses by zip"></p>
+<h4 id="adressen-nach-strasse-filtern">Adressen nach Strasse filtern</h4>
+<p><strong>Request:</strong> <code>GET /library/addresses?address=Hochwalderstrasse 23</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit passenden Adressen</p>
+<p><img src="./screenshots/03-get-all-addresses-with-specific-address.png" alt="Get addresses by address"></p>
+<h4 id="neue-adresse-erstellen">Neue Adresse erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/addresses</code></p>
+<p><strong>Erwartet:</strong> 201 Created, Adresse wird in der Datenbank gespeichert</p>
+<p><img src="./screenshots/04-create-new-address.png" alt="Create new address"></p>
+<h4 id="adresse-l%C3%B6schen">Adresse löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/addresses/2</code></p>
+<p><strong>Erwartet:</strong> 204 No Content, Adresse wird gelöscht</p>
+<p><img src="./screenshots/05-delete-address.png" alt="Delete address"></p>
+<h4 id="verifikation-get-nach-dem-l%C3%B6schen">Verifikation: GET nach dem Löschen</h4>
+<p><img src="./screenshots/05b-get-all-after-delete.png" alt="Get all after delete"></p>
+<h4 id="referenzierte-adresse-l%C3%B6schen">Referenzierte Adresse löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/addresses/4</code></p>
+<p><strong>Erwartet:</strong> 400 Bad Request, Adresse wird noch von einem Kunden referenziert</p>
+<p><img src="./screenshots/06-try-to-delete-referenced-address.png" alt="Delete referenced address"></p>
+<h4 id="nicht-existierende-adresse-l%C3%B6schen">Nicht existierende Adresse löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/addresses/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/07-delete-non-existing-address.png" alt="Delete non-existing address"></p>
+<div style="page-break-after: always;"></div>
+<h3 id="52-medien">5.2 Medien</h3>
+<h4 id="alle-medien-abrufen">Alle Medien abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/media</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit allen Medien</p>
+<p><img src="./screenshots/08-get-all-medias.png" alt="Get all media"></p>
+<h4 id="medien-nach-titel-filtern">Medien nach Titel filtern</h4>
+<p><strong>Request:</strong> <code>GET /library/media?title=Harry Potter</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit Medien mit Titel &quot;Harry Potter&quot;</p>
+<p><img src="./screenshots/09-get-all-medias-with-specific-title.png" alt="Get media by title"></p>
+<h4 id="medium-nach-id-abrufen">Medium nach ID abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/media/2</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Objekt des Mediums</p>
+<p><img src="./screenshots/10-get-media-by-id.png" alt="Get media by id"></p>
+<h4 id="nicht-existierendes-medium-abrufen">Nicht existierendes Medium abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/media/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/11-get-non-existing-media-by-id.png" alt="Get non-existing media"></p>
+<h4 id="neues-medium-erstellen">Neues Medium erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/media</code></p>
+<p><strong>Erwartet:</strong> 201 Created, JSON Objekt des erstellten Mediums</p>
+<p><img src="./screenshots/12-create-new-media.png" alt="Create new media"></p>
+<h4 id="medium-bearbeiten">Medium bearbeiten</h4>
+<p><strong>Request:</strong> <code>PATCH /library/media/5</code></p>
+<p><strong>Erwartet:</strong> 200 OK, Genre und Mindestalter werden aktualisiert</p>
+<p><img src="./screenshots/13-edit-media.png" alt="Edit media"></p>
+<h4 id="nicht-existierendes-medium-bearbeiten">Nicht existierendes Medium bearbeiten</h4>
+<p><strong>Request:</strong> <code>PATCH /library/media/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/14-update-non-existing-media.png" alt="Update non-existing media"></p>
+<h4 id="medium-l%C3%B6schen">Medium löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/media/4</code></p>
+<p><strong>Erwartet:</strong> 204 No Content, Medium wird gelöscht</p>
+<p><img src="./screenshots/15-deleted-media.png" alt="Delete media"></p>
+<h4 id="verifikation-get-nach-dem-l%C3%B6schen">Verifikation: GET nach dem Löschen</h4>
+<p><img src="./screenshots/15b-get-all-after-delete.png" alt="Get all after delete"></p>
+<h4 id="ausgeliehenes-medium-l%C3%B6schen">Ausgeliehenes Medium löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/media/2</code></p>
+<p><strong>Erwartet:</strong> 409 Conflict, Medium ist noch ausgeliehen</p>
+<p><img src="./screenshots/16-try-to-delete-borrowed-media.png" alt="Delete borrowed media"></p>
+<h4 id="nicht-existierendes-medium-l%C3%B6schen">Nicht existierendes Medium löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/media/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/17-delete-media-with-non-existing-id.png" alt="Delete non-existing media"></p>
+<div style="page-break-after: always;"></div>
+<h3 id="53-kunden">5.3 Kunden</h3>
+<h4 id="kunde-nach-id-abrufen">Kunde nach ID abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/customers/1</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Objekt des Kunden</p>
+<p><img src="./screenshots/18-get-customer-with-specific-id.png" alt="Get customer by id"></p>
+<h4 id="nicht-existierenden-kunden-abrufen">Nicht existierenden Kunden abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/customers/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/19-get-customer-with-non-existing-id.png" alt="Get non-existing customer"></p>
+<h4 id="kunden-nach-nachname-filtern">Kunden nach Nachname filtern</h4>
+<p><strong>Request:</strong> <code>GET /library/customers?name=Test</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit passenden Kunden</p>
+<p><img src="./screenshots/20-get-customers-by-lastname.png" alt="Get customers by name"></p>
+<h4 id="kunden-nach-adress-id-filtern">Kunden nach Adress-ID filtern</h4>
+<p><strong>Request:</strong> <code>GET /library/customers?addressId=3</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit Kunden an dieser Adresse</p>
+<p><img src="./screenshots/21-get-customers-by-address-id.png" alt="Get customers by address"></p>
+<h4 id="neuen-kunden-mit-neuer-adresse-erstellen">Neuen Kunden mit neuer Adresse erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/customers</code></p>
+<p><strong>Erwartet:</strong> 201 Created, Kunde und Adresse werden erstellt</p>
+<p><img src="./screenshots/22-create-new-customer-with-new-address.png" alt="Create customer with new address"></p>
+<h4 id="neuen-kunden-mit-bestehender-adresse-erstellen">Neuen Kunden mit bestehender Adresse erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/customers</code></p>
+<p><strong>Erwartet:</strong> 201 Created, Kunde wird mit bestehender Adresse verknüpft</p>
+<p><img src="./screenshots/23-create-new-customer-with-existing-address.png" alt="Create customer with existing address"></p>
+<h4 id="kunden-mit-nicht-existierender-adresse-erstellen">Kunden mit nicht existierender Adresse erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/customers</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found, Adresse existiert nicht</p>
+<p><img src="./screenshots/24-create-new-customer-with-non-existing-address.png" alt="Create customer with non-existing address"></p>
+<h4 id="kunden-ohne-adresse-erstellen">Kunden ohne Adresse erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/customers</code></p>
+<p><strong>Erwartet:</strong> 400 Bad Request, Adresse ist erforderlich</p>
+<p><img src="./screenshots/25-create-new-customer-with-no-address.png" alt="Create customer without address"></p>
+<h4 id="kunden-bearbeiten">Kunden bearbeiten</h4>
+<p><strong>Request:</strong> <code>PATCH /library/customers/1</code></p>
+<p><strong>Erwartet:</strong> 200 OK, E-Mail wird aktualisiert</p>
+<p><img src="./screenshots/26-edit-customer.png" alt="Edit customer"></p>
+<h4 id="nicht-existierenden-kunden-bearbeiten">Nicht existierenden Kunden bearbeiten</h4>
+<p><strong>Request:</strong> <code>PATCH /library/customers/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/27-edit-non-existing-customer.png" alt="Edit non-existing customer"></p>
+<h4 id="kunden-l%C3%B6schen">Kunden löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/customers/1</code></p>
+<p><strong>Erwartet:</strong> 204 No Content, Kunde wird gelöscht</p>
+<p><img src="./screenshots/28-delete-customer.png" alt="Delete customer"></p>
+<h4 id="verifikation-get-nach-dem-l%C3%B6schen">Verifikation: GET nach dem Löschen</h4>
+<p><img src="./screenshots/28b-get-customer-after-delete.png" alt="Get customer after delete"></p>
+<h4 id="kunden-mit-offener-ausleihe-l%C3%B6schen">Kunden mit offener Ausleihe löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/customers/3</code></p>
+<p><strong>Erwartet:</strong> 409 Conflict, Kunde hat noch offene Ausleihen</p>
+<p><img src="./screenshots/29-try-to-delete-customer-with-open-borrowing.png" alt="Delete customer with open borrowing"></p>
+<h4 id="nicht-existierenden-kunden-l%C3%B6schen">Nicht existierenden Kunden löschen</h4>
+<p><strong>Request:</strong> <code>DELETE /library/customers/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/30-try-to-delete-non-existing-customer.png" alt="Delete non-existing customer"></p>
+<div style="page-break-after: always;"></div>
+<h3 id="54-ausleihen">5.4 Ausleihen</h3>
+<h4 id="alle-ausleihen-abrufen">Alle Ausleihen abrufen</h4>
+<p><strong>Request:</strong> <code>GET /library/borrowings</code></p>
+<p><strong>Erwartet:</strong> 200 OK, JSON Array mit allen aktiven Ausleihen</p>
+<p><img src="./screenshots/31-get-all-borrowings.png" alt="Get all borrowings"></p>
+<h4 id="neue-ausleihe-erstellen">Neue Ausleihe erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/borrowings</code></p>
+<p><strong>Erwartet:</strong> 201 Created, Ausleihe wird mit heutigem Datum erstellt</p>
+<p><img src="./screenshots/32-create-new-borrowing.png" alt="Create borrowing"></p>
+<h4 id="ausleihe-mit-nicht-existierendem-kunden-erstellen">Ausleihe mit nicht existierendem Kunden erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/borrowings</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found, Kunde existiert nicht</p>
+<p><img src="./screenshots/33-create-new-borrowing-with-non-existing-customer.png" alt="Create borrowing with non-existing customer"></p>
+<h4 id="ausleihe-mit-nicht-existierendem-medium-erstellen">Ausleihe mit nicht existierendem Medium erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/borrowings</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found, Medium existiert nicht</p>
+<p><img src="./screenshots/34-create-new-borrowing-with-non-existing-media.png" alt="Create borrowing with non-existing media"></p>
+<h4 id="ausleihe-mit-bereits-ausgeliehenem-medium-erstellen">Ausleihe mit bereits ausgeliehenem Medium erstellen</h4>
+<p><strong>Request:</strong> <code>POST /library/borrowings</code></p>
+<p><strong>Erwartet:</strong> 409 Conflict, Medium ist bereits ausgeliehen</p>
+<p><img src="./screenshots/35-create-borrowing-with-already-borrowed-media.png" alt="Create borrowing with already borrowed media"></p>
+<h4 id="ausleihe-verl%C3%A4ngern">Ausleihe verlängern</h4>
+<p><strong>Request:</strong> <code>PATCH /library/borrowings/6</code></p>
+<p><strong>Erwartet:</strong> 200 OK, Dauer wird auf 28 Tage aktualisiert</p>
+<p><img src="./screenshots/36-edit-borrowing.png" alt="Extend borrowing"></p>
+<h4 id="nicht-existierende-ausleihe-verl%C3%A4ngern">Nicht existierende Ausleihe verlängern</h4>
+<p><strong>Request:</strong> <code>PATCH /library/borrowings/9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/37-edit-non-existing-borrowing.png" alt="Extend non-existing borrowing"></p>
+<h4 id="ausleihe-beenden">Ausleihe beenden</h4>
+<p><strong>Request:</strong> <code>DELETE /library/borrowings?mediaId=5</code></p>
+<p><strong>Erwartet:</strong> 204 No Content, Ausleihe wird gelöscht</p>
+<p><img src="./screenshots/38-delete-borrowing.png" alt="End borrowing"></p>
+<h4 id="verifikation-get-nach-dem-beenden">Verifikation: GET nach dem Beenden</h4>
+<p><img src="./screenshots/38b-get-all-after-delete.png" alt="Get all after delete"></p>
+<h4 id="ausleihe-mit-nicht-existierender-media-id-beenden">Ausleihe mit nicht existierender Media-ID beenden</h4>
+<p><strong>Request:</strong> <code>DELETE /library/borrowings?mediaId=9999</code></p>
+<p><strong>Erwartet:</strong> 404 Not Found</p>
+<p><img src="./screenshots/39-delete-non-existing-borrowing.png" alt="End non-existing borrowing"></p>
+
+</body>
+</html>

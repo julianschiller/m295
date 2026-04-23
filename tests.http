@@ -210,6 +210,7 @@ POST http://localhost:8080/library/borrowings
 Content-Type: application/json
 
 {
+    "borrowdate": "2026-04-05",
     "duration": 14,
     "customer": {
         "id": 4
@@ -276,6 +277,15 @@ Content-Type: application/json
 ### Extend borrowing that does not exist
 # Expected: 404 Not Found
 PATCH http://localhost:8080/library/borrowings/9999
+Content-Type: application/json
+
+{
+    "duration": 28
+}
+
+### Extend borrowing that should already be returned
+# Expected 409
+PATCH http://localhost:8080/library/borrowings/7
 Content-Type: application/json
 
 {
