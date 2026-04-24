@@ -3,6 +3,7 @@ package com.baloise.m295.library.api.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baloise.m295.library.business.service.BorrowingService;
 import com.baloise.m295.library.common.BorrowingEntity;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
  * @author Julian Schiller
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/library/borrowings")
 @RequiredArgsConstructor
 @Tag(name="Borrowings", description="CRUD-Operations for the borrowings")
