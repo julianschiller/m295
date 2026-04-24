@@ -7,6 +7,9 @@ spring:
     username: tech_user
     password: admin12345
 
+  profiles:
+    active: development
+
   jpa:
     hibernate:
       ddl-auto: none
