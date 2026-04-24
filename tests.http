@@ -88,7 +88,7 @@ Content-Type: application/json
 DELETE http://localhost:8080/library/media/4
 
 ### Delete borrowed media
-# Expected: 209 Conflict
+# Expected: 409 Conflict
 DELETE http://localhost:8080/library/media/2
 
 ### Delete media that does not exist
