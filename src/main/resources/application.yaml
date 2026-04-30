@@ -17,3 +17,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+
+ad:
+  domain: atbs21.atb
+  url: ldap://192.168.29.129:389
+  root-dn: DC=atbs21,DC=atb
