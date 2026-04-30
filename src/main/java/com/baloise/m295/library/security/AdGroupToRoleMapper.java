@@ -18,9 +18,9 @@ public class AdGroupToRoleMapper implements GrantedAuthoritiesMapper {
 
         return authorities.stream()
                 .map(GrantedAuthority::getAuthority)
-                .map(a -> a.replaceFirst("^ROLE_", ""))
+                .map(authority -> authority.replaceFirst("^ROLE_", ""))
                 .filter(RELEVANT_GROUPS::contains)
-                .map(g -> new SimpleGrantedAuthority("ROLE_" + g))
+                .map(groupName -> new SimpleGrantedAuthority("ROLE_" + groupName))
                 .collect(Collectors.toSet());
     }
 }
